@@ -7,7 +7,7 @@
          
     <display-name>WmsBackend</display-name>
 
-    <!-- ================= 1. 登录接口 (LoginServlet) ================= -->
+    <!-- ================= 1. 登录接口 ================= -->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>com.wms.servlet.LoginServlet</servlet-class>
@@ -17,7 +17,7 @@
         <url-pattern>/api/login</url-pattern>
     </servlet-mapping>
 
-    <!-- ================= 2. 大仓货位与派活接口 (BigWarehouseServlet) ================= -->
+    <!-- ================= 2. 大仓与发单接口 ================= -->
     <servlet>
         <servlet-name>BigWarehouseServlet</servlet-name>
         <servlet-class>com.wms.servlet.BigWarehouseServlet</servlet-class>
@@ -27,7 +27,17 @@
         <url-pattern>/api/warehouse</url-pattern>
     </servlet-mapping>
 
-    <!-- ================= 3. 工人抢单与状态流转接口 (WorkerActionServlet) ================= -->
+    <!-- ================= 3. 订单列表获取接口 (解决404的关键) ================= -->
+    <servlet>
+        <servlet-name>OrderServlet</servlet-name>
+        <servlet-class>com.wms.servlet.OrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OrderServlet</servlet-name>
+        <url-pattern>/api/orders</url-pattern>
+    </servlet-mapping>
+
+    <!-- ================= 4. 工人三阶段动作流转接口 ================= -->
     <servlet>
         <servlet-name>WorkerActionServlet</servlet-name>
         <servlet-class>com.wms.servlet.WorkerActionServlet</servlet-class>
@@ -37,7 +47,7 @@
         <url-pattern>/api/worker/action</url-pattern>
     </servlet-mapping>
 
-    <!-- ================= 4. 管理员审核结算接口 (AdminAuditServlet) ================= -->
+    <!-- ================= 5. 管理员终审核销结算接口 ================= -->
     <servlet>
         <servlet-name>AdminAuditServlet</servlet-name>
         <servlet-class>com.wms.servlet.AdminAuditServlet</servlet-class>
@@ -45,6 +55,25 @@
     <servlet-mapping>
         <servlet-name>AdminAuditServlet</servlet-name>
         <url-pattern>/api/admin/audit</url-pattern>
+    </servlet-mapping>
+
+    <!-- ================= 保留旧版的两个 Servlet 用于兼容 ================= -->
+    <servlet>
+        <servlet-name>SmallWhServlet</servlet-name>
+        <servlet-class>com.wms.servlet.SmallWhServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>SmallWhServlet</servlet-name>
+        <url-pattern>/api/v1/small/outbound</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>LargeWhTaskServlet</servlet-name>
+        <servlet-class>com.wms.servlet.LargeWhTaskServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LargeWhTaskServlet</servlet-name>
+        <url-pattern>/api/v1/large/*</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

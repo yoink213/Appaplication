@@ -30,6 +30,9 @@ public class JsonUtil {
         int end = json.indexOf(",", start);
         if (end == -1) end = json.indexOf("}", start);
         String value = json.substring(start, end).trim();
-        return value.replace("\"", "").replace(" ", "").replace("\n", "").replace("\r", "");
+        return value.replace("\"", "")
+                .replace("\n", "")
+                .replace("\r", "")
+                .trim();
     }
 }

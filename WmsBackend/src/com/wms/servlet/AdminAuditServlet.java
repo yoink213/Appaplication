@@ -12,13 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.wms.util.DBUtil;
 
-/**
- * [CLASS] AdminAuditServlet
- * BaseClass: HttpServlet
- * Operations:
- *   # doPost(request : HttpServletRequest, response : HttpServletResponse) : void
- *   Description: ¹ÜÀíÔ±ÉóºËÈ·ÈÏ/²µ»ØËÍ´ïµÄ¶©µ¥¡£ÉóºËÈ·ÈÏ³É¹¦½«»®¿Û¶©µ¥½ğ¶îÔö¼Óµ½¹¤ÈËµÄÇ®°üÓà¶îÖĞ¡£
- */
 public class AdminAuditServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
@@ -28,12 +21,11 @@ public class AdminAuditServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         int orderId = Integer.parseInt(request.getParameter("orderId"));
-        String action = request.getParameter("action"); // "ACCEPT" (È·ÈÏÍ¬Òâ) »ò "REJECT" (¾Ü¾ø²µ»Ø)
+        String auditAction = request.getParameter("action"); // "ACCEPT" (ç¡®è®¤åŒæ„), "REJECT" (æ‹’ç»é©³å›)
 
         try (Connection conn = DBUtil.getConnection()) {
-            conn.setAutoCommit(false); // ÆôÓÃÊÂÎñËø»úÖÆ
+            conn.setAutoCommit(false); // å¯ç”¨äº‹åŠ¡é”æœºåˆ¶
 
-            // ËøĞĞ»ñÈ¡µ±Ç°¶©µ¥
             String query = "SELECT worker_id, total_price, status FROM orders WHERE id = ? FOR UPDATE";
             try (PreparedStatement psQuery = conn.prepareStatement(query)) {
                 psQuery.setInt(1, orderId);
@@ -42,15 +34,15 @@ public class AdminAuditServlet extends HttpServlet {
                         int workerId = rs.getInt("worker_id");
                         double price = rs.getDouble("total_price");
 
-                        if ("ACCEPT".equals(action)) {
-                            // 1. ¸üĞÂ¶©µ¥Îª 4-ÒÑÍê³É
+                        if ("ACCEPT".equals(auditAction)) {
+                            // åŒæ„ï¼šæ›´æ–°çŠ¶æ€ä¸º 4-å·²å®Œæˆ
                             String updateOrder = "UPDATE orders SET status = 4 WHERE id = ?";
                             try (PreparedStatement psUp = conn.prepareStatement(updateOrder)) {
                                 psUp.setInt(1, orderId);
                                 psUp.executeUpdate();
                             }
 
-                            // 2. ½«¶©µ¥½ğ¶î½áËã¸ø¹¤ÈËÕË»§Óà¶îÖĞ
+                            // å°†è¿è´¹é‡‘é¢æ·»åŠ åˆ°å·¥äººè´¦æˆ·ä½™é¢ä¸­
                             String payWorker = "UPDATE users SET balance = balance + ? WHERE id = ?";
                             try (PreparedStatement psPay = conn.prepareStatement(payWorker)) {
                                 psPay.setDouble(1, price);
@@ -59,28 +51,28 @@ public class AdminAuditServlet extends HttpServlet {
                             }
 
                             conn.commit();
-                            out.print("{\"code\":200,\"message\":\"ÉóºËÍ¨¹ı£¬½áËã³É¹¦\"}");
+                            out.print("{\"code\":200,\"message\":\"å®¡æ ¸é€šè¿‡ï¼Œèµ„é‡‘å·²åˆ°è´¦ï¼\"}");
                         } else {
-                            // ¾Ü¾ø£º½«¶©µ¥×´Ì¬»Ø¹öÎª 5-ÒÑ¾Ü¾ø£¬²¢Çå³ı¹¤ÈË°ó¶¨
-                            String rejectOrder = "UPDATE orders SET status = 5, worker_id = NULL WHERE id = ?";
+                            // ğŸ”ã€ä¿®æ”¹ã€‘ï¼šæ‹’ç»æœªå®Œæˆï¼ŒçŠ¶æ€é‡ç½®å› 1-å·²æ¥å• (ä¿ç•™åŸæœ‰ worker_idï¼Œé€€å›åˆ°è¯¥å·¥äººçš„è´¦æˆ·ä¸­é‡æ–°é…é€)
+                            String rejectOrder = "UPDATE orders SET status = 1 WHERE id = ?";
                             try (PreparedStatement psRe = conn.prepareStatement(rejectOrder)) {
                                 psRe.setInt(1, orderId);
                                 psRe.executeUpdate();
                             }
                             conn.commit();
-                            out.print("{\"code\":200,\"message\":\"¶©µ¥ÒÑ±»¾Ü¾ø£¬ÒÑÍË»Ø´óÌü´ıÁì\"}");
+                            out.print("{\"code\":200,\"message\":\"å·²é©³å›ï¼ä»»åŠ¡å·²åŸè·¯è¿”å›è‡³å¯¹åº”å·¥äººåä¸‹\"}");
                         }
                     } else {
                         conn.rollback();
                         response.setStatus(400);
-                        out.print("{\"code\":400,\"message\":\"¶©µ¥²»¿É´¦Àí\"}");
+                        out.print("{\"code\":400,\"message\":\"è®¢å•ä¸å¯å®¡æ ¸\"}");
                     }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
             response.setStatus(500);
-            out.print("{\"code\":500,\"message\":\"·şÎñÆ÷ÄÚ²¿Òì³£\"}");
+            out.print("{\"code\":500,\"message\":\"æœåŠ¡å™¨å†…éƒ¨å¼‚å¸¸\"}");
         }
         out.flush();
     }
