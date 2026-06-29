@@ -68,4 +68,5 @@ dependencies {
     // 4. 协程支持 (之前提过，顺便检查一下有没有)
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
+    implementation("com.google.android.material:material:1.9.0")
 }

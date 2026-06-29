@@ -25,8 +25,9 @@
         </activity>
 
         <!-- 3. 必须在这里注册你的新建页面，否则跳转会崩溃！ -->
-        <activity android:name=".SmallWhActivity" />
-        <activity android:name=".LargeWhTaskActivity" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".WarehouseActivity" />
+        <activity android:name=".TaskPoolActivity" />
 
     </application>
 </manifest>

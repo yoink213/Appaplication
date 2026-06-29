@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_warehouse"
+            android:title="📦 大仓货架概览" />
+        <item
+            android:id="@+id/menu_tasks"
+            android:title="🛒 小仓任务抢单" />
+        <item
+            android:id="@+id/menu_logout"
+            android:title="🚪 退出账号" />
+    </group>
+</menu>

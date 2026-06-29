@@ -1,30 +1,62 @@
 package com.example.appaplication
 
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
-import retrofit2.Response
 
-// --- 数据模型 ---
-data class OutboundReq(val locationId: Long, val skuId: Long, val qty: Int)
+// 1. 数据传递对象定义
+data class LoginResponse(val code: Int, val message: String, val data: UserData?)
+data class UserData(val id: Int, val username: String, val role: Int, val realName: String, var balance: Double)
+data class BigWarehouseItem(val id: Int, val code: String, val name: String, val category: String, val quantity: Int, val price: Double, val location: String, val description: String)
 data class ResultMsg(val code: Int, val message: String)
-data class Task(val id: Long, val taskNo: String, val locationCode: String, val skuId: Long, val requireQty: Int)
 
-// --- API 接口 ---
+data class OrderItem(
+    val id: Int,
+    val orderNo: String,
+    val smallItemCode: String,
+    val bigWarehouseId: Int,
+    val quantity: Int,
+    val totalPrice: Double,
+    val deadline: String,
+    val status: Int,
+    val itemName: String,
+    val itemCodeLarge: String,
+    val location: String
+)
+
+data class DispatchReq(
+    val bigWarehouseId: Int,
+    val quantity: Int,
+    val totalPrice: Double,
+    val deadline: String,
+    val adminId: Int
+)
+
+// 2. Retrofit 契约契合学校 Tomcat 部署路径
 interface ApiService {
-    @POST("api/v1/small/outbound")
-    suspend fun smallOutbound(@Body req: OutboundReq): Response<ResultMsg>
+    @POST("api/login")
+    suspend fun login(@Body body: Map<String, String>): Response<LoginResponse>
 
-    @GET("api/v1/large/tasks/pending")
-    suspend fun getPendingTasks(): Response<List<Task>>
+    @GET("api/warehouse")
+    suspend fun getWarehouseItems(): Response<List<BigWarehouseItem>>
 
-    @POST("api/v1/large/task/finish/{taskId}")
-    suspend fun finishTask(@Path("taskId") taskId: Long): Response<ResultMsg>
+    @GET("api/orders")
+    suspend fun getPendingOrders(): Response<List<OrderItem>>
+
+    @POST("api/warehouse")
+    suspend fun dispatchTask(@Body req: DispatchReq): Response<ResultMsg>
+
+    @POST("api/worker/action")
+    suspend fun executeWorkerAction(
+        @Query("action") action: String,
+        @Query("orderId") orderId: Int,
+        @Query("workerId") workerId: Int
+    ): Response<ResultMsg>
 }
 
-// --- Retrofit 实例 ---
+// 3. 网络单例
 object ApiClient {
-    // 10.0.2.2 是 Android 模拟器访问电脑本地后端的固定 IP。如果连真机，换成电脑局域网 IP
     private const val BASE_URL = "http://10.0.2.2:8080/WmsBackend/"
 
     val api: ApiService by lazy {
@@ -35,3 +67,4 @@ object ApiClient {
             .create(ApiService::class.java)
     }
 }
+
