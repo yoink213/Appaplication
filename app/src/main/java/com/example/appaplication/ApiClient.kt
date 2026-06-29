@@ -42,7 +42,13 @@ interface ApiService {
     suspend fun getWarehouseItems(): Response<List<BigWarehouseItem>>
 
     @GET("api/orders")
-    suspend fun getPendingOrders(): Response<List<OrderItem>>
+    suspend fun getPendingOrders(@Query("role") role: Int): Response<List<OrderItem>>
+
+    @PUT("api/orders")
+    suspend fun updateOrder(@Body body: Map<String, Any>): Response<ResultMsg>
+
+    @DELETE("api/orders")
+    suspend fun deleteOrder(@Query("orderId") orderId: Int): Response<ResultMsg>
 
     @POST("api/warehouse")
     suspend fun dispatchTask(@Body req: DispatchReq): Response<ResultMsg>

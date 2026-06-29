@@ -37,14 +37,21 @@ class TaskPoolActivity : AppCompatActivity() {
     private fun loadPendingTasks() {
         lifecycleScope.launch {
             try {
-                val response = ApiClient.api.getPendingOrders()
+                // ⚠️ 传入角色 1，代表工人身份。后端将自动过滤只显示 0-待接单 和 5-已拒绝 的任务
+                val response = ApiClient.api.getPendingOrders(role = 1)
                 if (response.isSuccessful && response.body() != null) {
                     orderList.clear()
                     orderList.addAll(response.body()!!)
                     rvTaskPool.adapter = TaskPoolAdapter(orderList)
+
+                    if (orderList.isEmpty()) {
+                        Toast.makeText(this@TaskPoolActivity, "小仓当前很干净，没有待接订单~", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this@TaskPoolActivity, "Tomcat 响应失败，代码: ${response.code()}", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
-                Toast.makeText(this@TaskPoolActivity, "获取任务池失败", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@TaskPoolActivity, "网络连接异常，请确认服务器已开且 IP 正确", Toast.LENGTH_SHORT).show()
             }
         }
     }

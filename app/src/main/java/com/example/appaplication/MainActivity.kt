@@ -91,6 +91,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 onBackPressedCallback.isEnabled = false
             }
         })
+
+        val menu = navigationView.menu
+        if (role == 0) {
+            // 管理员：显示大仓和订单管理，隐藏工人抢单
+            menu.findItem(R.id.menu_warehouse).isVisible = true
+            menu.findItem(R.id.menu_admin_orders).isVisible = true
+            menu.findItem(R.id.menu_tasks).isVisible = false
+        } else {
+            // 工人：显示大仓和抢单大厅，隐藏管理员订单管理
+            menu.findItem(R.id.menu_warehouse).isVisible = true
+            menu.findItem(R.id.menu_admin_orders).isVisible = false
+            menu.findItem(R.id.menu_tasks).isVisible = true
+        }
+
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -116,6 +130,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 sp.edit().clear().apply()
                 startActivity(Intent(this, LoginActivity::class.java))
                 finish()
+            }
+            R.id.menu_admin_orders -> {
+                // 跳转到管理员订单管理页面
+                startActivity(Intent(this, AdminOrdersActivity::class.java))
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
