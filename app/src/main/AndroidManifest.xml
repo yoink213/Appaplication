@@ -29,6 +29,8 @@
         <activity android:name=".WarehouseActivity" />
         <activity android:name=".TaskPoolActivity" />
         <activity android:name=".AdminOrdersActivity" />
+        <activity android:name=".MyOrdersActivity" />
+        <activity android:name=".AdminAuditActivity" />
 
     </application>
 </manifest>

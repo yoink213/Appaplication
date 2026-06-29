@@ -94,15 +94,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val menu = navigationView.menu
         if (role == 0) {
-            // 管理员：显示大仓和订单管理，隐藏工人抢单
+            // 管理员：显示大仓、管理、审核；隐藏工人抢单、工人进行中
             menu.findItem(R.id.menu_warehouse).isVisible = true
             menu.findItem(R.id.menu_admin_orders).isVisible = true
+            menu.findItem(R.id.menu_admin_audit).isVisible = true
             menu.findItem(R.id.menu_tasks).isVisible = false
+            menu.findItem(R.id.menu_worker_active).isVisible = false
         } else {
-            // 工人：显示大仓和抢单大厅，隐藏管理员订单管理
+            // 工人：显示大仓、抢单、进行中；隐藏管理员项目
             menu.findItem(R.id.menu_warehouse).isVisible = true
             menu.findItem(R.id.menu_admin_orders).isVisible = false
+            menu.findItem(R.id.menu_admin_audit).isVisible = false
             menu.findItem(R.id.menu_tasks).isVisible = true
+            menu.findItem(R.id.menu_worker_active).isVisible = true
         }
 
     }
@@ -134,6 +138,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.menu_admin_orders -> {
                 // 跳转到管理员订单管理页面
                 startActivity(Intent(this, AdminOrdersActivity::class.java))
+            }
+            R.id.menu_admin_audit -> {
+                // 跳转到管理员订单终审页面
+                startActivity(Intent(this, AdminAuditActivity::class.java))
+            }
+            R.id.menu_worker_active -> {
+                // 跳转到工人进行中订单列表页面
+                startActivity(Intent(this, MyOrdersActivity::class.java))
             }
         }
         drawerLayout.closeDrawer(GravityCompat.START)
