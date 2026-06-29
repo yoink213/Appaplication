@@ -8,7 +8,7 @@
  Source Schema         : softwareproject
 
  Target Server Type    : MySQL
- Target Server Version : 80044 (8.0.44)
+ Target Server Version : 80044 (8.0.44) 123
  File Encoding         : 65001
 
  Date: 29/06/2026 15:05:43
