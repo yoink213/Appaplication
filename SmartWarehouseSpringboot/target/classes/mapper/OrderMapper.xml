@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wms.mapper.OrderMapper">
+
+    <select id="findAll" resultType="Order">
+        SELECT o.*, b.name AS item_name, b.code AS item_code_large, b.location
+        FROM orders o
+        JOIN big_warehouse b ON o.big_warehouse_id = b.id
+        ORDER BY o.id DESC
+    </select>
+
+    <select id="findByWorkerIdAndStatusIn" resultType="Order">
+        SELECT o.*, b.name AS item_name, b.code AS item_code_large, b.location
+        FROM orders o
+        JOIN big_warehouse b ON o.big_warehouse_id = b.id
+        WHERE o.worker_id = #{workerId} AND o.status IN
+        <foreach collection="statuses" item="s" open="(" separator="," close=")">
+            #{s}
+        </foreach>
+        ORDER BY o.id DESC
+    </select>
+
+    <select id="findByStatusIn" resultType="Order">
+        SELECT o.*, b.name AS item_name, b.code AS item_code_large, b.location
+        FROM orders o
+        JOIN big_warehouse b ON o.big_warehouse_id = b.id
+        WHERE o.status IN
+        <foreach collection="statuses" item="s" open="(" separator="," close=")">
+            #{s}
+        </foreach>
+        ORDER BY o.id ASC
+    </select>
+
+    <select id="findById" resultType="Order">
+        SELECT * FROM orders WHERE id = #{id}
+    </select>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO orders (order_no, small_item_code, big_warehouse_id, quantity, total_price, deadline, status, admin_id)
+        VALUES (#{orderNo}, #{smallItemCode}, #{bigWarehouseId}, #{quantity}, #{totalPrice}, #{deadline}, #{status}, #{adminId})
+    </insert>
+
+    <update id="updateStatus">
+        UPDATE orders SET status = #{status} WHERE id = #{id}
+    </update>
+
+    <update id="updateStatusAndWorkerId">
+        UPDATE orders SET status = #{status}, worker_id = #{workerId} WHERE id = #{id}
+    </update>
+
+    <update id="updateOrderPriceAndDeadline">
+        UPDATE orders SET total_price = #{totalPrice}, deadline = #{deadline} WHERE id = #{id} AND status IN (0, 5)
+    </update>
+
+    <delete id="deleteById">
+        DELETE FROM orders WHERE id = #{id}
+    </delete>
+
+    <select id="countActiveByWorkerId" resultType="int">
+        SELECT COUNT(*) FROM orders WHERE worker_id = #{workerId} AND status IN
+        <foreach collection="statuses" item="s" open="(" separator="," close=")">
+            #{s}
+        </foreach>
+    </select>
+
+</mapper>

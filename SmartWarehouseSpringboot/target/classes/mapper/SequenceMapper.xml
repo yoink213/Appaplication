@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wms.mapper.SequenceMapper">
+
+    <select id="getNextVal" resultType="Integer">
+        SELECT current_val FROM sys_sequence WHERE seq_name = #{seqName}
+    </select>
+
+    <update id="updateVal">
+        UPDATE sys_sequence SET current_val = #{val} WHERE seq_name = #{seqName}
+    </update>
+
+</mapper>
