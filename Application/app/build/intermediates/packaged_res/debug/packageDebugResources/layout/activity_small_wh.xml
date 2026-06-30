@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="🚀 小仓极速出库终端"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="30dp"/>
+
+    <EditText
+        android:id="@+id/etSkuId"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="请使用 PDA 扫码或输入商品ID"
+        android:inputType="number"
+        android:textSize="18sp"/>
+
+    <EditText
+        android:id="@+id/etQty"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="出库数量 (默认1)"
+        android:inputType="number"
+        android:layout_marginTop="10dp"
+        android:text="1"
+        android:textSize="18sp"/>
+
+    <Button
+        android:id="@+id/btnOutbound"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginTop="30dp"
+        android:text="确认出库 (扣减库存)"
+        android:textSize="20sp"
+        android:backgroundTint="#F44336"/>
+</LinearLayout>

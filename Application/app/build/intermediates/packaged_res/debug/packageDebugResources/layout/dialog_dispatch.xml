@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvDialogTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="📦 大仓货物出库指派"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#2C3E50"
+        android:layout_marginBottom="16dp"/>
+
+    <EditText
+        android:id="@+id/etDispatchQty"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="输入派发出库数量"
+        android:inputType="number"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/etDispatchPrice"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="输入订单运费/总价 (元)"
+        android:inputType="numberDecimal"
+        android:layout_marginTop="12dp"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/etDispatchDeadline"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="截止日期 (如: 2026-07-10 18:00:00)"
+        android:inputType="text"
+        android:layout_marginTop="12dp"
+        android:text="2026-07-10 18:00:00"
+        android:textSize="16sp"/>
+</LinearLayout>

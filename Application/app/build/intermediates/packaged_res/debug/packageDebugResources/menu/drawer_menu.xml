@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/menu_warehouse"
+            android:title="📦 大仓货架概览" />
+
+        <!-- 管理员专属菜单 -->
+        <item
+            android:id="@+id/menu_admin_orders"
+            android:title="📋 全局订单管理" />
+        <item
+            android:id="@+id/menu_admin_audit"
+            android:title="🔍 派送订单审核" />
+
+        <!-- 工人专属菜单 -->
+        <item
+            android:id="@+id/menu_tasks"
+            android:title="🛒 小仓任务抢单" />
+        <item
+            android:id="@+id/menu_worker_active"
+            android:title="📦 我的进行中订单" />
+
+        <item
+            android:id="@+id/menu_logout"
+            android:title="🚪 退出账号" />
+    </group>
+</menu>
