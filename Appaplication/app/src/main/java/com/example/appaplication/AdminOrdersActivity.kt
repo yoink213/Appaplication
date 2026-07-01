@@ -52,12 +52,16 @@ class AdminOrdersActivity : AppCompatActivity() {
             try {
                 val req = OrderUpdateReq(orderId, newPrice, newDeadline)
                 val response = ApiClient.api.updateOrder(req)
-                if (response.isSuccessful) {
-                    Toast.makeText(this@AdminOrdersActivity, "订单修改成功！", Toast.LENGTH_SHORT).show()
-                    loadAllOrders()
+                if (response.isSuccessful && response.body() != null) {
+                    val result = response.body()!!
+                    if (result.code == 200) {
+                        Toast.makeText(this@AdminOrdersActivity, "订单修改成功！", Toast.LENGTH_SHORT).show()
+                        loadAllOrders()
+                    } else {
+                        Toast.makeText(this@AdminOrdersActivity, result.message ?: "修改失败", Toast.LENGTH_LONG).show()
+                    }
                 } else {
-                    val errorBody = response.errorBody()?.string() ?: "未知错误"
-                    Toast.makeText(this@AdminOrdersActivity, "修改失败: $errorBody", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@AdminOrdersActivity, "修改失败：服务器响应异常", Toast.LENGTH_LONG).show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
@@ -71,12 +75,16 @@ class AdminOrdersActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val response = ApiClient.api.deleteOrder(orderId)
-                if (response.isSuccessful) {
-                    Toast.makeText(this@AdminOrdersActivity, "订单已安全撤销，大仓库存已返还！", Toast.LENGTH_LONG).show()
-                    loadAllOrders()
+                if (response.isSuccessful && response.body() != null) {
+                    val result = response.body()!!
+                    if (result.code == 200) {
+                        Toast.makeText(this@AdminOrdersActivity, "订单已安全撤销，大仓库存已返还！", Toast.LENGTH_LONG).show()
+                        loadAllOrders()
+                    } else {
+                        Toast.makeText(this@AdminOrdersActivity, result.message ?: "撤销失败", Toast.LENGTH_LONG).show()
+                    }
                 } else {
-                    val errorBody = response.errorBody()?.string() ?: "未知错误"
-                    Toast.makeText(this@AdminOrdersActivity, "撤销失败: $errorBody", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@AdminOrdersActivity, "撤销失败：服务器响应异常", Toast.LENGTH_LONG).show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

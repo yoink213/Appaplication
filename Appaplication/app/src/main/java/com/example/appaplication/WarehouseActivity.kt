@@ -193,12 +193,16 @@ class WarehouseActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val response = ApiClient.api.addWarehouseItem(req)
-                if (response.isSuccessful) {
-                    Toast.makeText(this@WarehouseActivity, "✅ 添加成功", Toast.LENGTH_SHORT).show()
-                    loadWarehouseData()
+                if (response.isSuccessful && response.body() != null) {
+                    val result = response.body()!!
+                    if (result.code == 200) {
+                        Toast.makeText(this@WarehouseActivity, "✅ 添加成功", Toast.LENGTH_SHORT).show()
+                        loadWarehouseData()
+                    } else {
+                        Toast.makeText(this@WarehouseActivity, result.message ?: "添加失败", Toast.LENGTH_LONG).show()
+                    }
                 } else {
-                    val errorBody = response.errorBody()?.string() ?: "添加失败"
-                    Toast.makeText(this@WarehouseActivity, errorBody, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@WarehouseActivity, "添加失败：服务器响应异常", Toast.LENGTH_LONG).show()
                 }
             } catch (e: Exception) {
                 e.printStackTrace()

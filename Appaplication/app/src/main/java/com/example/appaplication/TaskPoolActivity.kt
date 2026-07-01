@@ -59,18 +59,22 @@ class TaskPoolActivity : AppCompatActivity() {
     private fun executeClaimOrder(orderId: Int) {
         lifecycleScope.launch {
             try {
-                // 阶段1抢单流转动作
                 val response = ApiClient.api.executeWorkerAction("accept", orderId, currentWorkerId)
-                if (response.isSuccessful) {
-                    Toast.makeText(this@TaskPoolActivity, "抢单成功，请前往小仓提货！", Toast.LENGTH_SHORT).show()
-                    loadPendingTasks() // 刷新可领取的任务池
-                } else {
-                    val errorMsg = response.errorBody()?.string() ?: ""
-                    if (errorMsg.contains("3个进行中")) {
-                        Toast.makeText(this@TaskPoolActivity, "接单失败！您手头已有3单未完成", Toast.LENGTH_LONG).show()
+                if (response.isSuccessful && response.body() != null) {
+                    val result = response.body()!!
+                    if (result.code == 200) {
+                        Toast.makeText(this@TaskPoolActivity, "抢单成功，请前往小仓提货！", Toast.LENGTH_SHORT).show()
+                        loadPendingTasks()
                     } else {
-                        Toast.makeText(this@TaskPoolActivity, "抢单失败", Toast.LENGTH_SHORT).show()
+                        val msg = result.message ?: "抢单失败"
+                        if (msg.contains("3单") || msg.contains("3个")) {
+                            Toast.makeText(this@TaskPoolActivity, "接单失败！您手头已有3单未完成", Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(this@TaskPoolActivity, msg, Toast.LENGTH_SHORT).show()
+                        }
                     }
+                } else {
+                    Toast.makeText(this@TaskPoolActivity, "抢单失败：服务器响应异常", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@TaskPoolActivity, "网络传输异常", Toast.LENGTH_SHORT).show()

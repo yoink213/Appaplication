@@ -54,9 +54,16 @@ class MyOrdersActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val response = ApiClient.api.executeWorkerAction(action, orderId, workerId)
-                if (response.isSuccessful) {
-                    Toast.makeText(this@MyOrdersActivity, response.body()?.message ?: "操作成功", Toast.LENGTH_SHORT).show()
-                    loadMyOrders() // 刷新列表，完成状态流转
+                if (response.isSuccessful && response.body() != null) {
+                    val result = response.body()!!
+                    if (result.code == 200) {
+                        Toast.makeText(this@MyOrdersActivity, result.message ?: "操作成功", Toast.LENGTH_SHORT).show()
+                        loadMyOrders()
+                    } else {
+                        Toast.makeText(this@MyOrdersActivity, result.message ?: "操作失败", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this@MyOrdersActivity, "操作失败：服务器响应异常", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@MyOrdersActivity, "网络传输异常", Toast.LENGTH_SHORT).show()

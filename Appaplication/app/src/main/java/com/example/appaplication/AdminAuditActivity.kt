@@ -50,9 +50,16 @@ class AdminAuditActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val response = ApiClient.api.auditOrder(orderId, action)
-                if (response.isSuccessful) {
-                    Toast.makeText(this@AdminAuditActivity, response.body()?.message ?: "核销成功", Toast.LENGTH_SHORT).show()
-                    loadAuditOrders() // 刷新列表
+                if (response.isSuccessful && response.body() != null) {
+                    val result = response.body()!!
+                    if (result.code == 200) {
+                        Toast.makeText(this@AdminAuditActivity, result.message ?: "操作成功", Toast.LENGTH_SHORT).show()
+                        loadAuditOrders()
+                    } else {
+                        Toast.makeText(this@AdminAuditActivity, result.message ?: "操作失败", Toast.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Toast.makeText(this@AdminAuditActivity, "审核处理失败：服务器响应异常", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@AdminAuditActivity, "审核处理失败", Toast.LENGTH_SHORT).show()
