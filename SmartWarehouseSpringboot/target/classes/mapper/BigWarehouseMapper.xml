@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wms.mapper.BigWarehouseMapper">
+
+    <select id="findAll" resultType="BigWarehouse">
+        SELECT * FROM big_warehouse ORDER BY code ASC
+    </select>
+
+    <select id="findById" resultType="BigWarehouse">
+        SELECT * FROM big_warehouse WHERE id = #{id}
+    </select>
+
+    <update id="reduceQuantity">
+        UPDATE big_warehouse SET quantity = quantity - #{quantity} WHERE id = #{id}
+    </update>
+
+    <update id="restoreQuantity">
+        UPDATE big_warehouse SET quantity = quantity + #{quantity} WHERE id = #{id}
+    </update>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO big_warehouse (code, name, category, quantity, price, location, description)
+        VALUES (#{code}, #{name}, #{category}, #{quantity}, #{price}, #{location}, #{description})
+    </insert>
+
+    <select id="findMaxCode" resultType="String">
+        SELECT code FROM big_warehouse ORDER BY code DESC LIMIT 1
+    </select>
+
+</mapper>
