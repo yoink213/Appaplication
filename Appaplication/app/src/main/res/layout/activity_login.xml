@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="32dp"
+    android:gravity="center"
+    android:background="#F5F7FA">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="智能仓储直送平台"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:textColor="#2C3E50"
+        android:layout_marginBottom="40dp" />
+
+    <EditText
+        android:id="@+id/etUser"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="输入账号 (admin/worker_zhang)"
+        android:background="@android:drawable/editbox_background"
+        android:paddingLeft="15dp"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/etPass"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="输入密码 (123456)"
+        android:inputType="textPassword"
+        android:background="@android:drawable/editbox_background"
+        android:layout_marginTop="16dp"
+        android:paddingLeft="15dp"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/btnLogin"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="登 录"
+        android:textSize="18sp"
+        android:layout_marginTop="32dp"
+        android:backgroundTint="#34495E"
+        android:textColor="#FFFFFF" />
+</LinearLayout>

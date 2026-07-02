@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <TextView
+        android:id="@+id/tvAddItemTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="➕ 添加新货物"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#2C3E50"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="货物编号"
+        android:textSize="12sp"
+        android:textColor="#7F8C8D"
+        android:layout_marginTop="8dp"/>
+
+    <EditText
+        android:id="@+id/etItemCode"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="自动生成"
+        android:textSize="16sp"
+        android:enabled="false"
+        android:textColor="#2C3E50"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="货物名称"
+        android:textSize="12sp"
+        android:textColor="#7F8C8D"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/etItemName"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="请输入货物名称"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="分类"
+        android:textSize="12sp"
+        android:textColor="#7F8C8D"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/etItemCategory"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="如: 日用品/文具"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="初始库存数量"
+        android:textSize="12sp"
+        android:textColor="#7F8C8D"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/etItemQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="0"
+        android:inputType="number"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="单价 (元)"
+        android:textSize="12sp"
+        android:textColor="#7F8C8D"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/etItemPrice"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="0.00"
+        android:inputType="numberDecimal"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="货架位置"
+        android:textSize="12sp"
+        android:textColor="#7F8C8D"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/etItemLocation"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:hint="如: A区-1排-1层"
+        android:textSize="16sp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="规格/描述"
+        android:textSize="12sp"
+        android:textColor="#7F8C8D"
+        android:layout_marginTop="12dp"/>
+
+    <EditText
+        android:id="@+id/etItemDesc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="请输入规格描述"
+        android:minLines="2"
+        android:gravity="top"
+        android:textSize="16sp"/>
+</LinearLayout>

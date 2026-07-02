@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ECF0F1"
+    android:padding="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:text="📦 大仓库总实时库存"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#2C3E50"/>
+
+        <Button
+            android:id="@+id/btnAddItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:text="➕ 添加货物"
+            android:textSize="14sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="#27AE60"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"/>
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvWarehouse"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>
