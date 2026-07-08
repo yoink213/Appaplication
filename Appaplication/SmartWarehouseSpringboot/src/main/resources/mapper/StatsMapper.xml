@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wms.mapper.StatsMapper">
+
+    <select id="countTotalItemTypes" resultType="int">
+        SELECT COUNT(*) FROM big_warehouse
+    </select>
+
+    <select id="countTotalStock" resultType="int">
+        SELECT COALESCE(SUM(quantity), 0) FROM big_warehouse
+    </select>
+
+    <select id="sumTotalStockValue" resultType="java.math.BigDecimal">
+        SELECT COALESCE(SUM(quantity * price), 0) FROM big_warehouse
+    </select>
+
+    <select id="countTodayOrders" resultType="int">
+        SELECT COUNT(*) FROM orders WHERE DATE(created_at) = CURDATE()
+    </select>
+
+    <select id="countPendingOrders" resultType="int">
+        SELECT COUNT(*) FROM orders WHERE status IN (0, 1, 2)
+    </select>
+
+    <select id="countCompletedOrders" resultType="int">
+        SELECT COUNT(*) FROM orders WHERE status = 4
+    </select>
+
+    <select id="countWorkers" resultType="int">
+        SELECT COUNT(*) FROM users WHERE role = 1 AND status = 1
+    </select>
+
+    <select id="getCategoryStats" resultType="CategoryStats">
+        SELECT category,
+               SUM(quantity) AS totalQuantity,
+               COUNT(*) AS itemCount
+        FROM big_warehouse
+        GROUP BY category
+        ORDER BY totalQuantity DESC
+    </select>
+
+    <select id="getDailyOrderTrend" resultType="DailyOrderStats">
+        SELECT DATE(created_at) AS date, COUNT(*) AS orderCount
+        FROM orders
+        WHERE created_at &gt;= DATE_SUB(CURDATE(), INTERVAL #{days} DAY)
+        GROUP BY DATE(created_at)
+        ORDER BY date ASC
+    </select>
+
+    <select id="getLowStockItems" resultType="BigWarehouse">
+        SELECT * FROM big_warehouse
+        WHERE quantity &lt; #{threshold}
+        ORDER BY quantity ASC
+    </select>
+
+    <select id="getDefaultThreshold" resultType="int">
+        SELECT COALESCE(ROUND(AVG(quantity) * 0.2), 100) FROM big_warehouse
+    </select>
+
+</mapper>
